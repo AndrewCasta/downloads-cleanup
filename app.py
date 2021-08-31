@@ -1,5 +1,6 @@
 import os
 import shutil
+import pathlib
 from util.files_folders import (
     delete_files,
     delete_file_types,
@@ -11,7 +12,8 @@ from util.files_folders import (
 # check all files in folder against type & move to delete
 for dirpath, dirnames, files in os.walk(completed_folder):
     for file in files:
-        if file in delete_files or [ext in file for ext in delete_file_types][0]:
+        ext = pathlib.Path(file).suffix
+        if file in delete_files or ext in [file for file in delete_file_types]:
             file_path = f"{dirpath}\{file}"
             delete_folder_path = f"{delete_folder}\{file}"
             shutil.move(file_path, delete_folder_path)
